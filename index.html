@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CogniFit Captcha</title>
+    <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./styles.css">
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Poppins:wght@700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- WELCOME SCREEN -->
+    <div class="welcome-screen">
+    
+        <main>
+            <h1>Captcha!</h1>
+            
+            <div class="tasks">
+                <p><strong>Captcha!</strong> is a game to test your ability to differentiate between image subjects.</p>
+                <p>You can access the options menu by clicking <strong>Game Options</strong>.</p>
+                <p>To start playing type two words <strong>separated by a comma</strong> and click <strong>Start Game</strong>.</p>
+                <p><strong>Right answers</strong> add a point to the score while <strong>wrong answers</strong> subtract a point.</p>
+                <p>Click the <strong>Next Page</strong> button to get to the next round of images.</p>
+                <p>The game will end when the timer runs out.</p>
+            </div>
+        
+            <div class="buttons">
+                <input type="text" id="search" placeholder="cats, dogs">
+                <button id="start-button" onclick="startGame()">START GAME</button>
+                
+            </div>
+            <div class="buttons">
+                <button onclick="toggleOptions()">GAME OPTIONS</button>
+                <button onclick="openHiScores()">HI-SCORES</button>
+            </div>
+        </main>
+    
+        
+    </div>
+    
+    <!-- GAME SCREEN -->
+    <div class="game-screen hidden">
+
+        <main>
+            <h1 id="timer"></h1>
+            <h2 id="matching-keyword"></h2>
+            
+            <div class="images-container">
+
+            </div>
+
+            <div class="answer-count">
+                <p>Right Answers: <span id="right-answers"><strong>0</strong></span></p>
+                <p>Wrong Answers: <span id="wrong-answers"><strong>0</strong></span></p>
+            </div>
+
+            <div class="game-screen-buttons">
+                <button onclick="nextPage()">NEXT ROUND</button>
+                <button onclick="finishGame()">FINISH GAME</button>
+            </div>
+        </main>
+
+
+    </div>
+
+    <!-- OPTIONS MENU -->
+
+    <div class="container-game-options hidden">
+    
+        <div class="game-options">
+            <h1>Game Options</h1>
+            
+            <div class="option-container">
+                <h2 class="option-title">Grid Size</h2>
+                <div class="grid-size-options">
+                    <div class="grid-option">
+                        <img src="./assets/images/grid-small.png" alt="small grid">
+                        <label for="grid-small">Small (3x2)</label>
+                        <input type="radio" name="grid-size" id="grid-small" value="small" onchange="getGridSize()" checked>
+                    </div>
+                    <div class="grid-option">
+                        <img src="./assets/images/grid-medium.png" alt="medium grid">
+                        <label for="grid-medium">Medium (4x3)</label>
+                        <input type="radio" name="grid-size" id="grid-medium" value="medium" onchange="getGridSize()">
+                    </div>
+                    <div class="grid-option">
+                        <img src="./assets/images/grid-large.png" alt="small grid">
+                        <label for="grid-large">Large (4x4)</label>
+                        <input type="radio" name="grid-size" id="grid-large" value="large" onchange="getGridSize()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="option-container">
+                <h2 class="option-title">Time Limit</h2>
+                <div class="time-limit-options">
+                    <div class="time-option">
+                        <label for="time-30">30 Seconds</label>
+                        <input type="radio" name="time-limit" id="time-30" value="30" onchange="getTimeLimit()" checked>
+                    </div>
+                    <div class="time-option">
+                        <label for="time-60">60 Seconds</label>
+                        <input type="radio" name="time-limit" id="time-60" value="60" onchange="getTimeLimit()">
+                    </div>
+                    <div class="time-option">
+                        <label for="time-120">120 Seconds</label>
+                        <input type="radio" name="time-limit" id="time-120" value="120" onchange="getTimeLimit()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="option-container">
+                <h2 class="option-title">Difficulty</h2>
+                <div class="difficulty-options">
+                    <div class="difficulty-option">
+                        <label for="dif-easy">Easy</label>
+                        <input type="radio" name="difficulty" id="dif-easy" value="easy" onchange="getDifficulty()" checked>
+                    </div>
+                    <div class="difficulty-option">
+                        <label for="dif-normal">Normal</label>
+                        <input type="radio" name="difficulty" id="dif-normal" value="normal" onchange="getDifficulty()">
+                    </div>
+                    <div class="difficulty-option">
+                        <label for="dif-hard">Hard</label>
+                        <input type="radio" name="difficulty" id="dif-hard" value="hard" onchange="getDifficulty()">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+
+                <button onclick="saveOptions()">SAVE OPTIONS</button>
+                <button onclick="resetOptions()">RESET OPTIONS</button>
+            </div>
+
+        </div>
+    
+    </div>
+
+
+    <!-- RESULTS SCREEN -->
+
+    <div class="results-screen hidden">
+    
+        <main>
+
+            <h1>TIME UP!</h1>
+            
+            <div class="results">
+                <h2>FINAL SCORE: <span id="final-score">0</span></h2>
+                <div class="discrete-results">
+                    <h3>Right Answers: <span id="final-right">0</span> </h3>
+                    <h3>Wrong Answers: <span id="final-wrong">0</span> </h3>
+                </div>
+            </div>
+
+            <div class="options-review">
+                <p><strong>Grid Size: </strong><span id="review-size">Small</span></p>
+                <p><strong>Time Limit: </strong><span id="review-time">30</span></p>
+                <p><strong>Difficulty: </strong><span id="review-diff">Easy</span></p>
+                
+            </div>
+        
+            <div class="buttons">
+                <button id="start-button" onclick="backToWelcome()">BACK TO WELCOME</button>
+                <button onclick="openHiScores()">HI-SCORES</button>
+            </div>
+        </main>
+    
+        
+    </div>
+
+    <!-- HI-SCORES SCREEN -->
+
+<div class="hi-scores-screen hidden">
+    
+        <main>
+
+            <h1>HI-SCORES</h1>
+
+            <h2>Winner: <span id="score-1" class="scores">0</span> points</h2>
+            <h2>2nd Place: <span id="score-2" class="scores">0</span> points</h2>
+            <h2>3rd Place: <span id="score-3" class="scores">0</span> points</h2>
+            <div>
+                <h3>Runner Ups:</h3>
+                <h4><span class="scores">0</span> points</h4>
+                <h4><span class="scores">0</span> points</h4>
+                <h4><span class="scores">0</span> points</h4>
+            </div>
+        
+            <div class="buttons">
+                <button id="start-button" onclick="closeHiScores()">CLOSE HI-SCORES</button>
+                <button onclick="deleteScores()">DELETE HI-SCORES</button>
+            </div>
+        </main>
+    
+        
+    </div>
+
+    <!-- MAIN SCRIPT -->
+    <script src="./app.js"></script>
+</body>
+
+</html>
