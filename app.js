@@ -199,8 +199,6 @@ const startGame = () => {
         displayAnswerCount();
         resetScore();
         setTimer(gameOptions.time);
-        // setTimer(2344);
-
         setImages(gameOptions);
 
     } catch (err) {
