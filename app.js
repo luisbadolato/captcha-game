@@ -34,7 +34,7 @@ const hiScoreElements = document.querySelectorAll('.scores');
 // === GLOBAL VARIABLES === //
 // ======================== //
 
-const apiKey = '-x12KZv8xycsDvA69NSRDVTCdiO831mu2ITgs-wYgQA';
+const apiKey = '';
 
 let timerInterval,
     validKeyword,
